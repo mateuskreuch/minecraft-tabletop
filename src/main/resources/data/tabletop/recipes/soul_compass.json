@@ -1,0 +1,12 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:compass" },
+    { "item": "minecraft:glow_ink_sac" },
+    { "tag": "minecraft:soul_fire_base_blocks" }
+  ],
+  "result": {
+    "item": "tabletop:soul_compass",
+    "count": 1
+  }
+}

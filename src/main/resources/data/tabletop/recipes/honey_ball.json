@@ -1,0 +1,10 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:honey_bottle" }
+  ],
+  "result": {
+    "item": "tabletop:honey_ball",
+    "count": 1
+  }
+}

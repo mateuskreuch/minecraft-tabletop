@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EE",
+    " S",
+    " S"
+  ],
+  "key": {
+    "E": { "item": "minecraft:echo_shard"},
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": {
+    "item": "tabletop:echo_hoe",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "TGT",
+    "PPP"
+  ],
+  "key": {
+    "G": { "item": "minecraft:glowstone_dust" },
+    "T": { "item": "minecraft:redstone" },
+    "P": { "tag": "minecraft:planks" }
+  },
+  "result": {
+    "item": "tabletop:redstone_meter",
+    "count": 1
+  }
+}

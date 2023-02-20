@@ -1,0 +1,9 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "tabletop:item/honey_ball"
+  },
+  "overrides": [
+    { "predicate": { "storing": 1 }, "model": "tabletop:item/honey_ball_storing" }
+  ]
+}

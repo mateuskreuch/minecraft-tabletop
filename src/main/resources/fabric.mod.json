@@ -1,26 +1,29 @@
 {
-	"schemaVersion": 1,
-	"id": "tabletop",
-	"version": "${version}",
-	"name": "tabletop",
-	"license": "MIT",
-	"icon": "assets/tabletop/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.ukrech.Tabletop"
-		]
-	},
-	"mixins": [
-		"tabletop.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.14.14",
-		"minecraft": "~1.19.3",
-		"java": ">=17",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+   "schemaVersion": 1,
+   "id": "tabletop",
+   "version": "1.0.0",
+   "name": "tabletop",
+   "license": "MIT",
+   "icon": "assets/tabletop/icon.png",
+   "environment": "*",
+   "entrypoints": {
+      "main": [
+         "com.ukrech.Tabletop"
+      ],
+      "client": [
+         "com.ukrech.TabletopClient"
+      ]
+   },
+   "mixins": [
+      "tabletop.mixins.json"
+   ],
+   "depends": {
+      "fabricloader": ">=0.14.14",
+      "minecraft": "~1.19.3",
+      "java": ">=17",
+      "fabric-api": "*"
+   },
+   "suggests": {
+      "another-mod": "*"
+   }
 }

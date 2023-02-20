@@ -1,0 +1,6 @@
+{
+  "parent": "tabletop:block/template_redstone_meter",
+  "textures": {
+    "side": "tabletop:block/redstone_meter_12"
+  }
+}
