@@ -37,10 +37,9 @@ import net.minecraft.world.event.GameEvent;
 public class BlobEntity extends LivingEntity {
    public static final Identifier ID = new Identifier(Tabletop.MOD_ID, "blob_entity");
    public static final TrackedData<Integer> COLOR = DataTracker.registerData(BlobEntity.class, TrackedDataHandlerRegistry.INTEGER);
-   
-   public static EntityType<BlobEntity> ENTITY = FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlobEntity::new)
-                                                                        .dimensions(EntityDimensions.fixed(0.1875f, 0.1875f))
-                                                                        .build();
+   public static final EntityType<BlobEntity> ENTITY = FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlobEntity::new)
+                                                                              .dimensions(EntityDimensions.fixed(0.1875f, 0.1875f))
+                                                                              .build();
 
    private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();
 
