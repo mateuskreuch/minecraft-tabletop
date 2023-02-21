@@ -3,6 +3,11 @@
    "package": "com.ukrech.mixin",
    "compatibilityLevel": "JAVA_17",
    "mixins": [
+      "TntFireworkRocketEffectMixin",
+      "TntFireworkRocketRecipeMixin"
+   ],
+   "client": [
+      "TntFireworkRocketTooltipMixin"
    ],
    "injectors": {
       "defaultRequire": 1

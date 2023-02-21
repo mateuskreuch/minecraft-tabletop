@@ -33,6 +33,7 @@ import com.mojang.serialization.Codec;
 public class Tabletop implements ModInitializer {
    public static final String MOD_ID = "tabletop";
    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+   public static final String TNT_FIREWORK_KEY = MOD_ID.concat("Tnt");
 
    private static final ItemGroup TAB_GROUP = FabricItemGroup.builder(new Identifier(MOD_ID, "all"))
                                                              .displayName(Text.of("Tabletop"))
