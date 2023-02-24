@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -20,10 +21,12 @@ import net.minecraft.world.World;
 import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.block.RedstoneMeterBlock;
 import com.ukrech.entity.BlobEntity;
+import com.ukrech.entity.TokenEntity;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.EchoHoeItem;
 import com.ukrech.item.HoneyBallItem;
 import com.ukrech.item.SoulCompassItem;
+import com.ukrech.item.TokenItem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +53,7 @@ public class Tabletop implements ModInitializer {
       LOGGER.info("Registered blocks");
 
       Registry.register(Registries.ITEM, BlobItem.ID, BlobItem.ITEM);
+      Registry.register(Registries.ITEM, TokenItem.ID, TokenItem.ITEM);
       Registry.register(Registries.ITEM, SoulCompassItem.ID, SoulCompassItem.ITEM);
       Registry.register(Registries.ITEM, HoneyBallItem.ID, HoneyBallItem.ITEM);
       Registry.register(Registries.ITEM, EchoHoeItem.ID, EchoHoeItem.ITEM);
@@ -60,18 +64,23 @@ public class Tabletop implements ModInitializer {
       LOGGER.info("Registered items");
 
       Registry.register(Registries.ENTITY_TYPE, BlobEntity.ID, BlobEntity.ENTITY);
-      FabricDefaultAttributeRegistry.register(BlobEntity.ENTITY, BlobEntity.createBlobAttributes());
+      FabricDefaultAttributeRegistry.register(BlobEntity.ENTITY, BlobEntity.createPlaceableItemAttributes());
+
+      Registry.register(Registries.ENTITY_TYPE, TokenEntity.ID, TokenEntity.ENTITY);
+      FabricDefaultAttributeRegistry.register(TokenEntity.ENTITY, TokenEntity.createPlaceableItemAttributes());
 
       LOGGER.info("Registered entities");
 
-      BlobItem.registerDispenser();
+      DispenserBlock.registerBehavior(BlobItem.ITEM, BlobItem.getDispenserBehavior());
+      DispenserBlock.registerBehavior(TokenItem.ITEM, TokenItem.getDispenserBehavior());
 
       LOGGER.info("Registered dispenser behaviours");
 
       ItemGroupEvents.modifyEntriesEvent(TAB_GROUP).register(content -> {
          content.add(BlobItem.ITEM);
-         content.add(SoulCompassItem.ITEM);
+         content.add(TokenItem.ITEM);
          content.add(HoneyBallItem.ITEM);
+         content.add(SoulCompassItem.ITEM);
          content.add(EchoHoeItem.ITEM);
 
          content.add(PhantomPrismBlock.ITEM);
