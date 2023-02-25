@@ -97,6 +97,8 @@ public class TokenEntity extends PlaceableItemEntity {
             if (player.giveItemStack(originStack.copyWithCount(1))) {
                this.increment(originStack, -1);
             }
+            
+            return true;
          }
       }
    
