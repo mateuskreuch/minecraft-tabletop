@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -52,8 +53,12 @@ public class TokenEntity extends PlaceableItemEntity {
       this.updateName(originStack);
 
       if (originStack.isEmpty()) {
-   	   this.kill();
+         this.kill();
       }
+   }
+
+   private int getMaxIncrement(ItemStack originStack, int count) {
+      return Math.min(count, 100 - originStack.getCount());
    }
 
    //
@@ -65,32 +70,38 @@ public class TokenEntity extends PlaceableItemEntity {
    }
 
    @Override
-   protected boolean tryReturnToHand(ItemStack originStack, PlayerEntity player, Hand hand) {
-      return player.giveItemStack(originStack.copyWithCount(1));
+   public ActionResult interact(PlayerEntity player, Hand hand) {
+      var originStack = this.getOriginItemStack();
+      var stack = player.getStackInHand(hand);
+      var count = this.getMaxIncrement(originStack, player.isSneaking() ? stack.getCount() : 1);
+
+      if (this.isStackEqualToOriginStack(originStack, stack) && count > 0) {
+         this.increment(originStack, count);
+         stack.decrement(count);
+
+         return ActionResult.SUCCESS;
+      }
+      else {
+         return ActionResult.PASS;
+      }
    }
 
    @Override
-   public ActionResult interact(PlayerEntity player, Hand hand) {
-      var originStack = this.getOriginItemStack();
+   public boolean damage(DamageSource source, float amount) {
+      if (source.getAttacker() instanceof PlayerEntity) {
+         var player = (PlayerEntity) source.getAttacker();
+         
+         if (!player.isSneaking()) {
+            var originStack = this.getOriginItemStack();
 
-      if (player.isSneaking()) {
-         if (this.tryReturnToHand(originStack, player, hand)) {
-            this.increment(originStack, -1);
-
-            return ActionResult.SUCCESS;
+            if (player.giveItemStack(originStack.copyWithCount(1))) {
+               this.increment(originStack, -1);
+            }
          }
       }
-      else {
-         var stack = player.getStackInHand(hand);
+   
+      this.drop();
 
-         if (this.isStackEqualToOriginStack(originStack, stack)) {
-            this.increment(originStack, 1);
-            stack.decrement(1);
-
-            return ActionResult.SUCCESS;
-         }
-      }
-
-      return ActionResult.PASS;
+      return true;
    }
 }

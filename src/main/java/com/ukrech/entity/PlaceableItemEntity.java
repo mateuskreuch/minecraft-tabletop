@@ -167,13 +167,12 @@ public abstract class PlaceableItemEntity extends LivingEntity {
       if (source.getAttacker() instanceof PlayerEntity) {
          var player = (PlayerEntity) source.getAttacker();
 
-         if (!(player.getMainHandStack().getItem() instanceof SwordItem)) {
-            this.drop();
+         if (player.getMainHandStack().getItem() instanceof SwordItem) {
+            return true;
          }
       }
-      else {
-         this.drop();
-      }
+
+      this.drop();
 
       return true;
    }
