@@ -93,9 +93,11 @@ public class TokenEntity extends PlaceableItemEntity {
       var stack = player.getStackInHand(hand);
       var count = this.getMaxIncrement(originStack, player.isSneaking() ? stack.getCount() : 1);
 
-      if (this.isStackEqualToOriginStack(originStack, stack) && count > 0) {
-         this.increment(originStack, count);
-         stack.decrement(count);
+      if (this.isStackEqualToOriginStack(originStack, stack)) {
+         if (count > 0) {
+            this.increment(originStack, count);
+            stack.decrement(count);
+         }
 
          return ActionResult.SUCCESS;
       }
