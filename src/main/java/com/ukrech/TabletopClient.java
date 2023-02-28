@@ -2,18 +2,13 @@ package com.ukrech;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.CompassAnglePredicateProvider;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.util.Identifier;
+
 import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.entity.BlobEntity;
-import com.ukrech.entity.BlobEntityModel;
-import com.ukrech.entity.BlobEntityRenderer;
 import com.ukrech.entity.TokenEntity;
-import com.ukrech.entity.TokenEntityModel;
-import com.ukrech.entity.TokenEntityRenderer;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.HoneyBallItem;
 import com.ukrech.item.SoulCompassItem;
@@ -27,20 +22,15 @@ public class TabletopClient implements ClientModInitializer {
       //
 
       ColorProviderRegistry.ITEM.register(PhantomPrismBlock::getItemColor, PhantomPrismBlock.ITEM);
-      ColorProviderRegistry.ITEM.register(BlobItem::getItemColor, BlobItem.ITEM);
       ColorProviderRegistry.ITEM.register(SoulCompassItem::getItemColor, SoulCompassItem.ITEM);
+      ColorProviderRegistry.ITEM.register(BlobItem::getItemColor, BlobItem.ITEM);
       ColorProviderRegistry.ITEM.register(TokenItem::getItemColor, TokenItem.ITEM);
 
       //
 
-      EntityRendererRegistry.register(BlobEntity.ENTITY, BlobEntityRenderer::new);
-      EntityRendererRegistry.register(TokenEntity.ENTITY, TokenEntityRenderer::new);
-
-      //
-
-      EntityModelLayerRegistry.registerModelLayer(BlobEntityModel.LAYER, BlobEntityModel::getTexturedModelData);
-      EntityModelLayerRegistry.registerModelLayer(TokenEntityModel.LAYER, TokenEntityModel::getTexturedModelData);
-
+      BlobEntity.register();
+      TokenEntity.register();
+      
       //
 
       ModelPredicateProviderRegistry.register(SoulCompassItem.ITEM, new Identifier("angle"), new CompassAnglePredicateProvider(SoulCompassItem::getPos));

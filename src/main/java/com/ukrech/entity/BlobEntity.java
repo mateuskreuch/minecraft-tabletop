@@ -3,20 +3,23 @@ package com.ukrech.entity;
 import com.ukrech.Tabletop;
 import com.ukrech.item.BlobItem;
 
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.Item;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class BlobEntity extends PlaceableItemEntity {
    public static final Identifier ID = new Identifier(Tabletop.MOD_ID, "blob_entity");
+   public static final EntityModelLayer LAYER = new EntityModelLayer(ID, "main");
+   public static final Identifier TEXTURE_PATH = new Identifier(Tabletop.MOD_ID, "textures/entity/placeableitems/blob.png");
+   public static final float SHADOW_RADIUS = 3/16f;
    public static final EntityType<BlobEntity> ENTITY = FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlobEntity::new)
                                                                               .dimensions(EntityDimensions.fixed(0.1875f, 0.1875f))
                                                                               .build();
@@ -29,18 +32,25 @@ public class BlobEntity extends PlaceableItemEntity {
 
    //
 
+   public static void register() {
+      EntityModelLayerRegistry.registerModelLayer(LAYER, PlaceableItemEntityModel::getTexturedModelData);
+      EntityRendererRegistry.register(ENTITY, (context) -> new PlaceableItemEntityRenderer<BlobEntity>(context, PlaceableItemEntityModel::new, LAYER, SHADOW_RADIUS) {
+         @Override
+         public Identifier getTexture(BlobEntity entity) {
+            return TEXTURE_PATH;
+         }
+
+         @Override
+         protected boolean hasLabel(BlobEntity entity) {
+            return entity.hasCustomName();
+         }
+      });
+   }
+
+   //
+
    @Override
    protected Item getOriginItem() {
       return BlobItem.ITEM;
-   }
-
-   @Override
-   protected SoundEvent getHurtSound(DamageSource source) {
-      return SoundEvents.ENTITY_SLIME_HURT_SMALL;
-   }
-
-   @Override
-   protected SoundEvent getDeathSound() {
-      return SoundEvents.ENTITY_SLIME_DEATH_SMALL;
    }
 }

@@ -3,7 +3,10 @@ package com.ukrech.entity;
 import com.ukrech.Tabletop;
 import com.ukrech.item.TokenItem;
 
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +23,9 @@ import net.minecraft.world.World;
 
 public class TokenEntity extends PlaceableItemEntity {
    public static final Identifier ID = new Identifier(Tabletop.MOD_ID, "token_entity");
+   public static final EntityModelLayer LAYER = new EntityModelLayer(ID, "main");
+   public static final Identifier TEXTURE_PATH = new Identifier(Tabletop.MOD_ID, "textures/entity/placeableitems/token.png");
+   public static final float SHADOW_RADIUS = 3/16f;
    public static final EntityType<TokenEntity> ENTITY = FabricEntityTypeBuilder.create(SpawnGroup.MISC, TokenEntity::new)
                                                                                .dimensions(EntityDimensions.fixed(0.1875f, 0.25f))
                                                                                .build();
@@ -28,6 +34,18 @@ public class TokenEntity extends PlaceableItemEntity {
 
    public TokenEntity(EntityType<? extends LivingEntity> entityType, World world) {
       super(entityType, world);
+   }
+
+   //
+
+   public static void register() {
+      EntityModelLayerRegistry.registerModelLayer(LAYER, TokenEntityModel::getTexturedModelData);
+      EntityRendererRegistry.register(ENTITY, (context) -> new PlaceableItemEntityRenderer<TokenEntity>(context, TokenEntityModel::new, LAYER, SHADOW_RADIUS) {
+         @Override
+         public Identifier getTexture(TokenEntity entity) {
+            return TEXTURE_PATH;
+         }
+      });
    }
 
    //
