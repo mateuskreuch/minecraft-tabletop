@@ -2,13 +2,13 @@ package com.ukrech.block;
 
 import com.ukrech.Tabletop;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -23,13 +23,13 @@ public class PhantomPrismBlock extends Block {
 
    public static final Identifier ID = new Identifier(Tabletop.MOD_ID, "phantom_prism");
    public static final PhantomPrismBlock BLOCK = new PhantomPrismBlock(FabricBlockSettings.copy(Blocks.GLOWSTONE).sounds(BlockSoundGroup.HONEY));
-   public static final BlockItem ITEM = new BlockItem(BLOCK, new Item.Settings());
+   public static final BlockItem ITEM = new BlockItem(BLOCK, new FabricItemSettings());
    
    //
 
    public PhantomPrismBlock(Settings settings) {
       super(settings);
-      setDefaultState(getStateManager().getDefaultState().with(POWER, 0));
+      this.setDefaultState(this.getStateManager().getDefaultState().with(POWER, 0));
    }
 
    //
