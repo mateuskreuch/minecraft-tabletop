@@ -8,14 +8,14 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPointer;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class TokenItem extends PlaceableItem {
@@ -47,23 +47,14 @@ public class TokenItem extends PlaceableItem {
    //
 
    @Override
-   public ActionResult useOnBlock(ItemUsageContext context) {
-      var world = context.getWorld();
-
-      if (world instanceof ServerWorld) {
-         var stack = context.getStack();
-         var player = context.getPlayer();
-
-         ((PlaceableItem) stack.getItem()).place(
-            stack,
-            context.getHitPos(),
-            (ServerWorld) world,
-            player,
-            player.isSneaking() ? stack.getCount() : 1
-         );
-      }
-
-      return ActionResult.success(world.isClient);
+   public void onRaycast(ItemStack stack, PlayerEntity player, Vec3d hit) {
+      ((PlaceableItem) stack.getItem()).place(
+         stack,
+         hit,
+         (ServerWorld) player.world,
+         player,
+         player.isSneaking() ? stack.getCount() : 1
+      );
    }
 
    @Override

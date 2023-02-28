@@ -24,28 +24,26 @@ public class TabletopClient implements ClientModInitializer {
    public void onInitializeClient() {
       ColorProviderRegistry.BLOCK.register(PhantomPrismBlock::getBlockColor, PhantomPrismBlock.BLOCK);
 
-      Tabletop.LOGGER.info("Registered block colors");
+      //
 
       ColorProviderRegistry.ITEM.register(PhantomPrismBlock::getItemColor, PhantomPrismBlock.ITEM);
       ColorProviderRegistry.ITEM.register(BlobItem::getItemColor, BlobItem.ITEM);
       ColorProviderRegistry.ITEM.register(SoulCompassItem::getItemColor, SoulCompassItem.ITEM);
       ColorProviderRegistry.ITEM.register(TokenItem::getItemColor, TokenItem.ITEM);
 
-      Tabletop.LOGGER.info("Registered item colors");
+      //
 
       EntityRendererRegistry.register(BlobEntity.ENTITY, BlobEntityRenderer::new);
       EntityRendererRegistry.register(TokenEntity.ENTITY, TokenEntityRenderer::new);
 
-      Tabletop.LOGGER.info("Registered entity renderers");
+      //
 
       EntityModelLayerRegistry.registerModelLayer(BlobEntityModel.LAYER, BlobEntityModel::getTexturedModelData);
       EntityModelLayerRegistry.registerModelLayer(TokenEntityModel.LAYER, TokenEntityModel::getTexturedModelData);
 
-      Tabletop.LOGGER.info("Registered model layers");
+      //
 
       ModelPredicateProviderRegistry.register(SoulCompassItem.ITEM, new Identifier("angle"), new CompassAnglePredicateProvider(SoulCompassItem::getPos));
       ModelPredicateProviderRegistry.register(HoneyBallItem.ITEM, new Identifier("storing"), HoneyBallItem::isStoring);
-
-      Tabletop.LOGGER.info("Registered model predicates");
    }
 }

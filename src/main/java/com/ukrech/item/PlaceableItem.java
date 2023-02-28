@@ -1,26 +1,28 @@
 package com.ukrech.item;
 
 import com.ukrech.entity.PlaceableItemEntity;
+import com.ukrech.event.ItemRaycastEvent;
 
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-public abstract class PlaceableItem extends Item implements DyeableItem {
+public abstract class PlaceableItem extends Item implements DyeableItem, RaycastableItem {
    public PlaceableItem(Settings settings) {
       super(settings);
    }
@@ -101,6 +103,16 @@ public abstract class PlaceableItem extends Item implements DyeableItem {
       }
    }
 
+   public void onRaycast(ItemStack stack, PlayerEntity player, Vec3d hit) {
+      ((PlaceableItem) stack.getItem()).place(
+         stack,
+         hit,
+         (ServerWorld) player.world,
+         player,
+         1
+      );
+   }
+
    //
 
    protected abstract EntityType<? extends PlaceableItemEntity> getEntity();
@@ -115,21 +127,13 @@ public abstract class PlaceableItem extends Item implements DyeableItem {
    //
 
    @Override
-   public ActionResult useOnBlock(ItemUsageContext context) {
-      var world = context.getWorld();
+   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+      var stack = user.getStackInHand(hand);
 
-      if (world instanceof ServerWorld) {
-         var stack = context.getStack();
-
-         ((PlaceableItem) stack.getItem()).place(
-            stack,
-            context.getHitPos(),
-            (ServerWorld) world,
-            context.getPlayer(),
-            1
-         );
+      if (world.isClient) {
+         ItemRaycastEvent.send(stack);
       }
 
-      return ActionResult.success(world.isClient);
+      return TypedActionResult.success(stack);
    }
 }

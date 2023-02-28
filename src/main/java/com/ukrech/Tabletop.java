@@ -3,6 +3,7 @@ package com.ukrech;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.ItemGroup;
@@ -20,6 +21,7 @@ import net.minecraft.world.World;
 
 import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.block.RedstoneMeterBlock;
+import com.ukrech.event.ItemRaycastEvent;
 import com.ukrech.entity.BlobEntity;
 import com.ukrech.entity.TokenEntity;
 import com.ukrech.item.BlobItem;
@@ -36,6 +38,7 @@ import com.mojang.serialization.Codec;
 public class Tabletop implements ModInitializer {
    public static final String MOD_ID = "tabletop";
    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
    public static final String TNT_FIREWORK_KEY = MOD_ID.concat("Tnt");
 
    private static final ItemGroup TAB_GROUP = FabricItemGroup.builder(new Identifier(MOD_ID, "all"))
@@ -50,7 +53,7 @@ public class Tabletop implements ModInitializer {
       Registry.register(Registries.BLOCK, PhantomPrismBlock.ID, PhantomPrismBlock.BLOCK);
       Registry.register(Registries.BLOCK, RedstoneMeterBlock.ID, RedstoneMeterBlock.BLOCK);
 
-      LOGGER.info("Registered blocks");
+      //
 
       Registry.register(Registries.ITEM, BlobItem.ID, BlobItem.ITEM);
       Registry.register(Registries.ITEM, TokenItem.ID, TokenItem.ITEM);
@@ -61,7 +64,7 @@ public class Tabletop implements ModInitializer {
       Registry.register(Registries.ITEM, PhantomPrismBlock.ID, PhantomPrismBlock.ITEM);
       Registry.register(Registries.ITEM, RedstoneMeterBlock.ID, RedstoneMeterBlock.ITEM);
 
-      LOGGER.info("Registered items");
+      //
 
       Registry.register(Registries.ENTITY_TYPE, BlobEntity.ID, BlobEntity.ENTITY);
       FabricDefaultAttributeRegistry.register(BlobEntity.ENTITY, BlobEntity.createPlaceableItemAttributes());
@@ -69,12 +72,12 @@ public class Tabletop implements ModInitializer {
       Registry.register(Registries.ENTITY_TYPE, TokenEntity.ID, TokenEntity.ENTITY);
       FabricDefaultAttributeRegistry.register(TokenEntity.ENTITY, TokenEntity.createPlaceableItemAttributes());
 
-      LOGGER.info("Registered entities");
+      //
 
       DispenserBlock.registerBehavior(BlobItem.ITEM, BlobItem.getDispenserBehavior());
       DispenserBlock.registerBehavior(TokenItem.ITEM, TokenItem.getDispenserBehavior());
 
-      LOGGER.info("Registered dispenser behaviours");
+      //
 
       ItemGroupEvents.modifyEntriesEvent(TAB_GROUP).register(content -> {
          content.add(BlobItem.ITEM);
@@ -87,7 +90,9 @@ public class Tabletop implements ModInitializer {
          content.add(RedstoneMeterBlock.ITEM);
       });
 
-      LOGGER.info("Registered content in creative tab");
+      //
+
+      ServerPlayNetworking.registerGlobalReceiver(ItemRaycastEvent.ID, ItemRaycastEvent::receive);
    }
 
    //
