@@ -45,6 +45,7 @@ public abstract class PlaceableItemEntity extends LivingEntity {
          this.layer = new EntityModelLayer(this.id, "main");
          this.entity = FabricEntityTypeBuilder.create(SpawnGroup.MISC, factory)
                                               .dimensions(EntityDimensions.fixed(width, height))
+                                              .disableSummon()
                                               .build();
       }
    }
