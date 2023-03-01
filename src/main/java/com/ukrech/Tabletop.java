@@ -4,15 +4,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -22,11 +18,14 @@ import net.minecraft.world.World;
 import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.block.RedstoneMeterBlock;
 import com.ukrech.event.ItemRaycastEvent;
+import com.ukrech.block.HumanTotemBlock;
 import com.ukrech.entity.BlobEntity;
+import com.ukrech.entity.HorseDollEntity;
 import com.ukrech.entity.TokenEntity;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.EchoHoeItem;
 import com.ukrech.item.HoneyBallItem;
+import com.ukrech.item.HorseDollItem;
 import com.ukrech.item.SoulCompassItem;
 import com.ukrech.item.TokenItem;
 
@@ -50,32 +49,26 @@ public class Tabletop implements ModInitializer {
 
    @Override
    public void onInitialize() {
-      Registry.register(Registries.BLOCK, PhantomPrismBlock.ID, PhantomPrismBlock.BLOCK);
-      Registry.register(Registries.BLOCK, RedstoneMeterBlock.ID, RedstoneMeterBlock.BLOCK);
+      ItemRaycastEvent.register();
+      
+      //
+
+      PhantomPrismBlock.register();
+      RedstoneMeterBlock.register();
+      
+      //
+
+      BlobItem.register();
+      TokenItem.register();
+      SoulCompassItem.register();
+      HoneyBallItem.register();
+      EchoHoeItem.register();
 
       //
 
-      Registry.register(Registries.ITEM, BlobItem.ID, BlobItem.ITEM);
-      Registry.register(Registries.ITEM, TokenItem.ID, TokenItem.ITEM);
-      Registry.register(Registries.ITEM, SoulCompassItem.ID, SoulCompassItem.ITEM);
-      Registry.register(Registries.ITEM, HoneyBallItem.ID, HoneyBallItem.ITEM);
-      Registry.register(Registries.ITEM, EchoHoeItem.ID, EchoHoeItem.ITEM);
-
-      Registry.register(Registries.ITEM, PhantomPrismBlock.ID, PhantomPrismBlock.ITEM);
-      Registry.register(Registries.ITEM, RedstoneMeterBlock.ID, RedstoneMeterBlock.ITEM);
-
-      //
-
-      Registry.register(Registries.ENTITY_TYPE, BlobEntity.ID, BlobEntity.ENTITY);
-      FabricDefaultAttributeRegistry.register(BlobEntity.ENTITY, BlobEntity.createPlaceableItemAttributes());
-
-      Registry.register(Registries.ENTITY_TYPE, TokenEntity.ID, TokenEntity.ENTITY);
-      FabricDefaultAttributeRegistry.register(TokenEntity.ENTITY, TokenEntity.createPlaceableItemAttributes());
-
-      //
-
-      DispenserBlock.registerBehavior(BlobItem.ITEM, BlobItem.getDispenserBehavior());
-      DispenserBlock.registerBehavior(TokenItem.ITEM, TokenItem.getDispenserBehavior());
+      BlobEntity.register();
+      TokenEntity.register();
+      HorseDollEntity.register();
 
       //
 
@@ -89,10 +82,6 @@ public class Tabletop implements ModInitializer {
          content.add(PhantomPrismBlock.ITEM);
          content.add(RedstoneMeterBlock.ITEM);
       });
-
-      //
-
-      ServerPlayNetworking.registerGlobalReceiver(ItemRaycastEvent.ID, ItemRaycastEvent::receive);
    }
 
    //

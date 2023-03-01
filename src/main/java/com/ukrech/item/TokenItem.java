@@ -4,12 +4,15 @@ import com.ukrech.Tabletop;
 import com.ukrech.entity.PlaceableItemEntity;
 import com.ukrech.entity.TokenEntity;
 
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -29,6 +32,15 @@ public class TokenItem extends PlaceableItem {
    }
 
    //
+
+   public static void register() {
+      Registry.register(Registries.ITEM, ID, ITEM);
+      DispenserBlock.registerBehavior(ITEM, TokenItem.getDispenserBehavior());
+   }
+
+   public static void registerClient() {
+      ColorProviderRegistry.ITEM.register(TokenItem::getItemColor, ITEM);
+   }
 
    public static ItemDispenserBehavior getDispenserBehavior() {
       return new ItemDispenserBehavior() {

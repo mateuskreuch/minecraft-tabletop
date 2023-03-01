@@ -5,6 +5,7 @@ import com.ukrech.item.TokenItem;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityDimensions;
@@ -15,6 +16,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -39,6 +42,11 @@ public class TokenEntity extends PlaceableItemEntity {
    //
 
    public static void register() {
+      Registry.register(Registries.ENTITY_TYPE, ID, ENTITY);
+      FabricDefaultAttributeRegistry.register(ENTITY, TokenEntity.createPlaceableItemAttributes());
+   }
+
+   public static void registerClient() {
       EntityModelLayerRegistry.registerModelLayer(LAYER, TokenEntityModel::getTexturedModelData);
       EntityRendererRegistry.register(ENTITY, (context) -> new PlaceableItemEntityRenderer<TokenEntity>(context, TokenEntityModel::new, LAYER, SHADOW_RADIUS) {
          @Override

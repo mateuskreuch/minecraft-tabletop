@@ -4,8 +4,12 @@ import com.ukrech.Tabletop;
 import com.ukrech.entity.BlobEntity;
 import com.ukrech.entity.PlaceableItemEntity;
 
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -19,6 +23,17 @@ public class BlobItem extends PlaceableItem {
 
    public BlobItem(Settings settings) {
       super(settings);
+   }
+
+   //
+
+   public static void register() {
+      Registry.register(Registries.ITEM, ID, ITEM);
+      DispenserBlock.registerBehavior(ITEM, BlobItem.getDispenserBehavior());
+   }
+
+   public static void registerClient() {
+      ColorProviderRegistry.ITEM.register(BlobItem::getItemColor, ITEM);
    }
 
    //

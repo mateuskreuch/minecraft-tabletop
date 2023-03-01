@@ -2,6 +2,7 @@ package com.ukrech.block;
 
 import com.ukrech.Tabletop;
 
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -10,6 +11,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -33,6 +36,16 @@ public class PhantomPrismBlock extends Block {
    }
 
    //
+
+   public static void register() {
+      Registry.register(Registries.BLOCK, ID, BLOCK);
+      Registry.register(Registries.ITEM, ID, ITEM);
+   }
+
+   public static void registerClient() {
+      ColorProviderRegistry.BLOCK.register(PhantomPrismBlock::getBlockColor, BLOCK);
+      ColorProviderRegistry.ITEM.register(PhantomPrismBlock::getItemColor, ITEM);
+   }
 
    public static int getBlockColor(BlockState state, BlockRenderView view, BlockPos pos, int tintIndex) {
       switch (state.get(POWER)) {

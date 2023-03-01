@@ -5,6 +5,7 @@ import com.ukrech.item.BlobItem;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityDimensions;
@@ -12,6 +13,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -33,6 +36,11 @@ public class BlobEntity extends PlaceableItemEntity {
    //
 
    public static void register() {
+      Registry.register(Registries.ENTITY_TYPE, ID, ENTITY);
+      FabricDefaultAttributeRegistry.register(ENTITY, BlobEntity.createPlaceableItemAttributes());
+   }
+
+   public static void registerClient() {
       EntityModelLayerRegistry.registerModelLayer(LAYER, PlaceableItemEntityModel::getTexturedModelData);
       EntityRendererRegistry.register(ENTITY, (context) -> new PlaceableItemEntityRenderer<BlobEntity>(context, PlaceableItemEntityModel::new, LAYER, SHADOW_RADIUS) {
          @Override

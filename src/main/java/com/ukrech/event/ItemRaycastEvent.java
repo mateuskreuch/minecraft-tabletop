@@ -6,6 +6,7 @@ import com.ukrech.item.RaycastableItem;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -17,6 +18,12 @@ import net.minecraft.util.math.Vec3d;
 
 public class ItemRaycastEvent {
    public static Identifier ID = new Identifier(Tabletop.MOD_ID, "item_raycast");
+
+   //
+
+   public static void register() {
+      ServerPlayNetworking.registerGlobalReceiver(ID, ItemRaycastEvent::receive);
+   }
 
    public static void send(ItemStack stack) {
       var client = MinecraftClient.getInstance();

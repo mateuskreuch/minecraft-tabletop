@@ -5,6 +5,7 @@ import com.ukrech.Tabletop;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlock;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
@@ -12,6 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +33,14 @@ public class HoneyBallItem extends Item {
    }
 
    //
+
+   public static void register() {
+      Registry.register(Registries.ITEM, ID, ITEM);
+   }
+
+   public static void registerClient() {
+      ModelPredicateProviderRegistry.register(ITEM, new Identifier("storing"), HoneyBallItem::isStoring);
+   }
 
    public static float isStoring(ItemStack stack, ClientWorld world, LivingEntity entity, int seed) {
       return stack.getOrCreateNbt().contains(STATE_KEY) ? 1.0f : 0.0f;
