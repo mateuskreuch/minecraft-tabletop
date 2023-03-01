@@ -74,13 +74,14 @@ public class Tabletop implements ModInitializer {
       
       BlobItem.register();
       TokenItem.register();
+      DollItem.register();
       SoulCompassItem.register();
       HoneyBallItem.register();
       EchoHoeItem.register();
 
       BlobEntity.register();
       TokenEntity.register();
-      HorseDollEntity.register();
+      DollEntity.register();
 
       ItemGroupEvents.modifyEntriesEvent(TAB_GROUP).register(content -> {
          content.add(BlobItem.ITEM);

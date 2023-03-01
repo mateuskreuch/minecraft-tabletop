@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 
 import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.entity.BlobEntity;
-import com.ukrech.entity.HorseDollEntity;
+import com.ukrech.entity.DollEntity;
 import com.ukrech.entity.TokenEntity;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.HoneyBallItem;
@@ -23,6 +23,6 @@ public class TabletopClient implements ClientModInitializer {
 
       BlobEntity.registerClient();
       TokenEntity.registerClient();
-      HorseDollEntity.registerClient();
+      DollEntity.registerClient();
    }
 }
