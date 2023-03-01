@@ -2,12 +2,8 @@ package com.ukrech.item;
 
 import com.ukrech.Tabletop;
 import com.ukrech.entity.BlobEntity;
-import com.ukrech.entity.PlaceableItemEntity;
-
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.entity.EntityType;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -26,8 +22,7 @@ public class BlobItem extends PlaceableItem {
    //
 
    public static void register() {
-      Tabletop.register(ID, ITEM);
-      DispenserBlock.registerBehavior(ITEM, BlobItem.getDispenserBehavior());
+      PlaceableItem.register(ID, ITEM, BlobEntity.BLOB.entity, BlobItem.getDispenserBehavior());
    }
 
    public static void registerClient() {
@@ -37,18 +32,8 @@ public class BlobItem extends PlaceableItem {
    //
 
    @Override
-   protected EntityType<? extends PlaceableItemEntity> getEntity() {
-      return BlobEntity.ENTITY;
-   }
-
-   @Override
    protected int getDefaultColor() {
       return 0x8cd782;
-   }
-
-   @Override
-   protected double getPlacingMargin() {
-      return 0.8125;
    }
 
    @Override

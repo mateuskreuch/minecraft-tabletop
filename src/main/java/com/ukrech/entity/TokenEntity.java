@@ -1,19 +1,18 @@
 package com.ukrech.entity;
 
 import com.ukrech.Tabletop;
-import com.ukrech.item.TokenItem;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.entity.EntityDimensions;
+import net.minecraft.client.model.ModelData;
+import net.minecraft.client.model.ModelPartBuilder;
+import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -22,13 +21,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class TokenEntity extends PlaceableItemEntity {
-   public static final Identifier ID = new Identifier(Tabletop.MOD_ID, "token_entity");
-   public static final EntityModelLayer LAYER = new EntityModelLayer(ID, "main");
-   public static final Identifier TEXTURE_PATH = new Identifier(Tabletop.MOD_ID, "textures/entity/placeableitems/token.png");
-   public static final float SHADOW_RADIUS = 3/16f;
-   public static final EntityType<TokenEntity> ENTITY = FabricEntityTypeBuilder.create(SpawnGroup.MISC, TokenEntity::new)
-                                                                               .dimensions(EntityDimensions.fixed(0.1875f, 0.25f))
-                                                                               .build();
+   public static final PlaceableItemEntityInfo<TokenEntity> TOKEN = new PlaceableItemEntityInfo<>("token", 3/16f, 4/16f, TokenEntity::new);
+   public static final float SHADOW_RADIUS = 2.5f/16f;
 
    //
 
@@ -39,24 +33,28 @@ public class TokenEntity extends PlaceableItemEntity {
    //
 
    public static void register() {
-      Tabletop.register(ID, ENTITY, TokenEntity.createPlaceableItemAttributes());
+      Tabletop.register(TOKEN.id, TOKEN.entity, TokenEntity.createPlaceableItemAttributes());
    }
 
    public static void registerClient() {
-      EntityModelLayerRegistry.registerModelLayer(LAYER, TokenEntityModel::getTexturedModelData);
-      EntityRendererRegistry.register(ENTITY, (context) -> new PlaceableItemEntityRenderer<TokenEntity>(context, TokenEntityModel::new, LAYER, SHADOW_RADIUS) {
+      EntityModelLayerRegistry.registerModelLayer(TOKEN.layer, () -> {
+         var modelData = new ModelData();
+
+         modelData.getRoot().addChild(
+            EntityModelPartNames.CUBE,
+            ModelPartBuilder.create().uv(0, 0).cuboid(-1.5f, 0f, -1.5f, 3f, 4f, 3f),
+            ModelTransform.pivot(0f, 20f, 0f)
+         );
+         
+         return TexturedModelData.of(modelData, 12, 7);
+      });
+
+      EntityRendererRegistry.register(TOKEN.entity, (context) -> new PlaceableItemEntityRenderer<TokenEntity>(context, TOKEN.layer, SHADOW_RADIUS) {
          @Override
          public Identifier getTexture(TokenEntity entity) {
-            return TEXTURE_PATH;
+            return TOKEN.texturePath;
          }
       });
-   }
-
-   //
-
-   @Override
-   protected Item getOriginItem() {
-      return TokenItem.ITEM;
    }
 
    //
@@ -97,7 +95,7 @@ public class TokenEntity extends PlaceableItemEntity {
       var stack = player.getStackInHand(hand);
       var count = this.getMaxIncrement(originStack, player.isSneaking() ? stack.getCount() : 1);
 
-      if (this.isStackEqualToOriginStack(originStack, stack)) {
+      if (ItemStack.canCombine(originStack, stack)) {
          if (count > 0) {
             this.increment(originStack, count);
             stack.decrement(count);

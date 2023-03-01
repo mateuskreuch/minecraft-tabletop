@@ -1,28 +1,22 @@
 package com.ukrech.entity;
 
 import com.ukrech.Tabletop;
-import com.ukrech.item.BlobItem;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.entity.EntityDimensions;
+import net.minecraft.client.model.ModelData;
+import net.minecraft.client.model.ModelPartBuilder;
+import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class BlobEntity extends PlaceableItemEntity {
-   public static final Identifier ID = new Identifier(Tabletop.MOD_ID, "blob_entity");
-   public static final EntityModelLayer LAYER = new EntityModelLayer(ID, "main");
-   public static final Identifier TEXTURE_PATH = new Identifier(Tabletop.MOD_ID, "textures/entity/placeableitems/blob.png");
-   public static final float SHADOW_RADIUS = 3/16f;
-   public static final EntityType<BlobEntity> ENTITY = FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlobEntity::new)
-                                                                              .dimensions(EntityDimensions.fixed(0.1875f, 0.1875f))
-                                                                              .build();
+   public static final PlaceableItemEntityInfo<BlobEntity> BLOB = new PlaceableItemEntityInfo<>("blob", 3/16f, 3/16f, BlobEntity::new);
+   public static final float SHADOW_RADIUS = 2.5f/16f;
 
    //
 
@@ -33,15 +27,26 @@ public class BlobEntity extends PlaceableItemEntity {
    //
 
    public static void register() {
-      Tabletop.register(ID, ENTITY, BlobEntity.createPlaceableItemAttributes());
+      Tabletop.register(BLOB.id, BLOB.entity, BlobEntity.createPlaceableItemAttributes());
    }
 
    public static void registerClient() {
-      EntityModelLayerRegistry.registerModelLayer(LAYER, PlaceableItemEntityModel::getTexturedModelData);
-      EntityRendererRegistry.register(ENTITY, (context) -> new PlaceableItemEntityRenderer<BlobEntity>(context, PlaceableItemEntityModel::new, LAYER, SHADOW_RADIUS) {
+      EntityModelLayerRegistry.registerModelLayer(BLOB.layer, () -> {
+         var modelData = new ModelData();
+
+         modelData.getRoot().addChild(
+            EntityModelPartNames.CUBE,
+            ModelPartBuilder.create().uv(0, 0).cuboid(-1.5f, 0f, -1.5f, 3f, 3f, 3f),
+            ModelTransform.pivot(0f, 21f, 0f)
+         );
+         
+         return TexturedModelData.of(modelData, 12, 6);
+      });
+   
+      EntityRendererRegistry.register(BLOB.entity, (context) -> new PlaceableItemEntityRenderer<BlobEntity>(context, BLOB.layer, SHADOW_RADIUS) {
          @Override
          public Identifier getTexture(BlobEntity entity) {
-            return TEXTURE_PATH;
+            return BLOB.texturePath;
          }
 
          @Override
@@ -49,12 +54,5 @@ public class BlobEntity extends PlaceableItemEntity {
             return entity.hasCustomName();
          }
       });
-   }
-
-   //
-
-   @Override
-   protected Item getOriginItem() {
-      return BlobItem.ITEM;
    }
 }

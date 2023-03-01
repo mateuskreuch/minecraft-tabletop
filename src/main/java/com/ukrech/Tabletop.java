@@ -26,13 +26,18 @@ import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.block.RedstoneMeterBlock;
 import com.ukrech.event.ItemRaycastEvent;
 import com.ukrech.entity.BlobEntity;
-import com.ukrech.entity.HorseDollEntity;
+import com.ukrech.entity.DollEntity;
+import com.ukrech.entity.PlaceableItemEntity;
 import com.ukrech.entity.TokenEntity;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.EchoHoeItem;
 import com.ukrech.item.HoneyBallItem;
+import com.ukrech.item.DollItem;
 import com.ukrech.item.SoulCompassItem;
 import com.ukrech.item.TokenItem;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +48,15 @@ public class Tabletop implements ModInitializer {
    public static final String MOD_ID = "tabletop";
    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+   //
+
    public static final String TNT_FIREWORK_KEY = MOD_ID.concat("Tnt");
+
+   //
+
+   public static final Map<Item, EntityType<? extends PlaceableItemEntity>> PLACEABLE_ITEM_ENTITY_PAIRS = new HashMap<Item, EntityType<? extends PlaceableItemEntity>>();
+
+   //
 
    private static final ItemGroup TAB_GROUP = FabricItemGroup.builder(new Identifier(MOD_ID, "all"))
                                                              .displayName(Text.of("Tabletop"))

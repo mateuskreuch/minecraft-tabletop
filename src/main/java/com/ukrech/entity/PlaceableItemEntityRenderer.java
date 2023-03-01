@@ -1,6 +1,5 @@
 package com.ukrech.entity;
 
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
@@ -11,8 +10,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class PlaceableItemEntityRenderer<E extends PlaceableItemEntity> extends LivingEntityRenderer<E, TintableCompositeModel<E>> {
-   public PlaceableItemEntityRenderer(Context context, PlaceableItemEntityModelProvider<E> modelProvider, EntityModelLayer layer, float shadowRadius) {
-      super(context, modelProvider.get(context.getPart(layer)), shadowRadius);
+   public PlaceableItemEntityRenderer(Context context, EntityModelLayer layer, float shadowRadius) {
+      super(context, new PlaceableItemEntityModel<E>(context.getPart(layer)), shadowRadius);
    }
 
    //
@@ -34,12 +33,5 @@ public class PlaceableItemEntityRenderer<E extends PlaceableItemEntity> extends 
    @Override
    protected boolean hasLabel(E entity) {
       return entity == this.dispatcher.targetedEntity;
-   }
-
-   //
-
-   @FunctionalInterface
-   public interface PlaceableItemEntityModelProvider<E extends PlaceableItemEntity> {
-      PlaceableItemEntityModel<E> get(ModelPart modelPart);
    }
 }

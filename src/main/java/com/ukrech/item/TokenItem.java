@@ -1,23 +1,17 @@
 package com.ukrech.item;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.ukrech.Tabletop;
-import com.ukrech.entity.PlaceableItemEntity;
 import com.ukrech.entity.TokenEntity;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.ItemDispenserBehavior;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class TokenItem extends PlaceableItem {
@@ -33,56 +27,23 @@ public class TokenItem extends PlaceableItem {
    //
 
    public static void register() {
-      Tabletop.register(ID, ITEM);
-      DispenserBlock.registerBehavior(ITEM, TokenItem.getDispenserBehavior());
+      PlaceableItem.register(ID, ITEM, TokenEntity.TOKEN.entity, TokenItem.getDispenserBehavior());
    }
 
    public static void registerClient() {
       ColorProviderRegistry.ITEM.register(TokenItem::getItemColor, ITEM);
    }
 
-   public static ItemDispenserBehavior getDispenserBehavior() {
-      return new ItemDispenserBehavior() {
-         @Override
-         public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-            var direction = pointer.getBlockState().get(DispenserBlock.FACING);
-            var pos = pointer.getPos().offset(direction).toCenterPos();
-
-            ((PlaceableItem) stack.getItem()).place(stack, pos, pointer.getWorld(), null, stack.getCount());
-   
-            return stack;
-         }
-      };
-   }
-
    //
 
    @Override
-   public void onRaycast(PlayerEntity player, Hand hand, Vec3d hit) {
-      var stack = player.getStackInHand(hand);
-      
-      ((PlaceableItem) stack.getItem()).place(
-         stack,
-         hit,
-         (ServerWorld) player.world,
-         player,
-         player.isSneaking() ? stack.getCount() : 1
-      );
-   }
-
-   @Override
-   protected EntityType<? extends PlaceableItemEntity> getEntity() {
-      return TokenEntity.ENTITY;
+   protected int getPlacingAmount(@Nullable PlayerEntity player, ItemStack stack) {
+      return player == null || player.isSneaking() ? stack.getCount() : 1;
    }
 
    @Override
    protected int getDefaultColor() {
       return 0xeb693a;
-   }
-
-   @Override
-   protected double getPlacingMargin() {
-      return 0.8125;
    }
 
    @Override

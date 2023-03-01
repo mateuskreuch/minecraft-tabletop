@@ -1,5 +1,8 @@
 package com.ukrech.item;
 
+import org.jetbrains.annotations.Nullable;
+
+import com.ukrech.Tabletop;
 import com.ukrech.entity.PlaceableItemEntity;
 import com.ukrech.event.ItemRaycastEvent;
 import com.ukrech.event.ItemRaycastEvent.RaycastingItem;
@@ -15,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +33,12 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
 
    //
 
+   public static void register(Identifier id, Item item, EntityType<? extends PlaceableItemEntity> entity, ItemDispenserBehavior behavior) {
+      Tabletop.register(id, item);
+      Tabletop.PLACEABLE_ITEM_ENTITY_PAIRS.put(item, entity);
+      DispenserBlock.registerBehavior(item, behavior);
+   }
+
    public static int getItemColor(ItemStack itemStack, int tintIndex) {
       return ((DyeableItem) itemStack.getItem()).getColor(itemStack);
    }
@@ -39,8 +49,9 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
          public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
             var direction = pointer.getBlockState().get(DispenserBlock.FACING);
             var pos = pointer.getPos().offset(direction).toCenterPos();
+            var item = ((PlaceableItem) stack.getItem());
 
-            ((PlaceableItem) stack.getItem()).place(stack, pos, pointer.getWorld(), null, 1);
+            item.place(stack, pos, pointer.getWorld(), null, item.getPlacingAmount(null, stack));
    
             return stack;
          }
@@ -50,7 +61,7 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
    //
 
    public boolean place(ItemStack stack, Vec3d pos, ServerWorld world, PlayerEntity player, int amount) {
-      var entity = this.getEntity().create(
+      var entity = Tabletop.PLACEABLE_ITEM_ENTITY_PAIRS.get(this).create(
          world,
          stack.getNbt(),
          EntityType.nbtCopier(e -> {}, world, stack, player),
@@ -111,20 +122,18 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
          hit,
          (ServerWorld) player.world,
          player,
-         1
+         this.getPlacingAmount(player, stack)
       );
    }
 
    //
 
-   protected abstract EntityType<? extends PlaceableItemEntity> getEntity();
    protected abstract int getDefaultColor();
    protected abstract void playPlacingSound(World world, double x, double y, double z);
-   protected abstract double getPlacingMargin();
    
-   protected double getPlacingStep() {
-      return 8.0;
-   };
+   protected int getPlacingAmount(@Nullable PlayerEntity player, ItemStack stack) { return 1; }
+   protected double getPlacingMargin() { return 0.8125; };
+   protected double getPlacingStep() { return 8.0; };
 
    //
 
