@@ -8,13 +8,14 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.hit.HitResult;
 
 public class ItemRaycastEvent {
    public static Identifier ID = new Identifier(Tabletop.MOD_ID, "item_raycast");
@@ -25,32 +26,44 @@ public class ItemRaycastEvent {
       ServerPlayNetworking.registerGlobalReceiver(ID, ItemRaycastEvent::receive);
    }
 
-   public static void send(ItemStack stack) {
+   public static boolean trySend(Hand hand) {
       var client = MinecraftClient.getInstance();
-      var hit = client.crosshairTarget.getPos().toVector3f();
-      var packet = PacketByteBufs.create();
+      var hit = client.crosshairTarget;
 
-      packet.writeItemStack(stack);
-      packet.writeFloat(hit.x);
-      packet.writeFloat(hit.y);
-      packet.writeFloat(hit.z);
+      if (hit.getType() != HitResult.Type.MISS) {
+         var pos = hit.getPos().toVector3f();
+         var packet = PacketByteBufs.create();
 
-      ClientPlayNetworking.send(ID, packet);
+         packet.writeEnumConstant(hand);
+         packet.writeFloat(pos.x);
+         packet.writeFloat(pos.y);
+         packet.writeFloat(pos.z);
+
+         ClientPlayNetworking.send(ID, packet);
+
+         return true;
+      }
+      else {
+         return false;
+      }
    }
 
    public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf packet, PacketSender sender) {
-      var stack = packet.readItemStack();
+      var hand = packet.readEnumConstant(Hand.class);
+      var item = player.getStackInHand(hand).getItem();
 
-      ((RaycastingItem) stack.getItem()).onRaycast(
-         stack,
-         player,
-         new Vec3d(packet.readFloat(), packet.readFloat(), packet.readFloat())
-      );
+      if (item instanceof RaycastingItem) {
+         ((RaycastingItem) item).onRaycast(
+            player,
+            hand,
+            new Vec3d(packet.readFloat(), packet.readFloat(), packet.readFloat())
+         );
+      }
    }
 
-   ///
+   //
 
    public interface RaycastingItem {
-      public void onRaycast(ItemStack stack, PlayerEntity player, Vec3d hit);
+      public void onRaycast(PlayerEntity player, Hand hand, Vec3d hit);
    }
 }

@@ -103,7 +103,9 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
       }
    }
 
-   public void onRaycast(ItemStack stack, PlayerEntity player, Vec3d hit) {
+   public void onRaycast(PlayerEntity player, Hand hand, Vec3d hit) {
+      var stack = player.getStackInHand(hand);
+
       ((PlaceableItem) stack.getItem()).place(
          stack,
          hit,
@@ -131,9 +133,15 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
       var stack = user.getStackInHand(hand);
 
       if (world.isClient) {
-         ItemRaycastEvent.send(stack);
+         if (ItemRaycastEvent.trySend(hand)) {
+            return TypedActionResult.success(stack);
+         }
+         else {
+            return TypedActionResult.fail(stack);
+         }
       }
-
-      return TypedActionResult.success(stack);
+      else {
+         return TypedActionResult.consume(stack);
+      }
    }
 }

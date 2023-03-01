@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.Vec3d;
@@ -57,7 +58,9 @@ public class TokenItem extends PlaceableItem {
    //
 
    @Override
-   public void onRaycast(ItemStack stack, PlayerEntity player, Vec3d hit) {
+   public void onRaycast(PlayerEntity player, Hand hand, Vec3d hit) {
+      var stack = player.getStackInHand(hand);
+      
       ((PlaceableItem) stack.getItem()).place(
          stack,
          hit,
