@@ -56,26 +56,18 @@ public class Tabletop implements ModInitializer {
    public void onInitialize() {
       ItemRaycastEvent.register();
 
-      //
-
       PhantomPrismBlock.register();
       RedstoneMeterBlock.register();
       
-      //
-
       BlobItem.register();
       TokenItem.register();
       SoulCompassItem.register();
       HoneyBallItem.register();
       EchoHoeItem.register();
 
-      //
-
       BlobEntity.register();
       TokenEntity.register();
       HorseDollEntity.register();
-
-      //
 
       ItemGroupEvents.modifyEntriesEvent(TAB_GROUP).register(content -> {
          content.add(BlobItem.ITEM);

@@ -2,6 +2,7 @@ package com.ukrech.item;
 
 import com.ukrech.entity.PlaceableItemEntity;
 import com.ukrech.event.ItemRaycastEvent;
+import com.ukrech.event.ItemRaycastEvent.RaycastingItem;
 
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
@@ -21,7 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-public abstract class PlaceableItem extends Item implements DyeableItem, RaycastableItem {
+public abstract class PlaceableItem extends Item implements DyeableItem, RaycastingItem {
    public PlaceableItem(Settings settings) {
       super(settings);
    }

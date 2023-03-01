@@ -16,14 +16,10 @@ public class TabletopClient implements ClientModInitializer {
    public void onInitializeClient() {
       PhantomPrismBlock.registerClient();
 
-      //
-
       SoulCompassItem.registerClient();
       BlobItem.registerClient();
       TokenItem.registerClient();
       HoneyBallItem.registerClient();
-
-      //
 
       BlobEntity.registerClient();
       TokenEntity.registerClient();

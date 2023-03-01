@@ -1,13 +1,13 @@
 package com.ukrech.event;
 
 import com.ukrech.Tabletop;
-import com.ukrech.item.RaycastableItem;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
@@ -41,10 +41,16 @@ public class ItemRaycastEvent {
    public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf packet, PacketSender sender) {
       var stack = packet.readItemStack();
 
-      ((RaycastableItem) stack.getItem()).onRaycast(
+      ((RaycastingItem) stack.getItem()).onRaycast(
          stack,
          player,
          new Vec3d(packet.readFloat(), packet.readFloat(), packet.readFloat())
       );
+   }
+
+   ///
+
+   public interface RaycastingItem {
+      public void onRaycast(ItemStack stack, PlayerEntity player, Vec3d hit);
    }
 }
