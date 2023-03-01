@@ -13,8 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +33,7 @@ public class HoneyBallItem extends Item {
    //
 
    public static void register() {
-      Registry.register(Registries.ITEM, ID, ITEM);
+      Tabletop.register(ID, ITEM);
    }
 
    public static void registerClient() {

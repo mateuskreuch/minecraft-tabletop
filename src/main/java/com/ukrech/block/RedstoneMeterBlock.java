@@ -10,8 +10,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.Identifier;
@@ -35,8 +33,7 @@ public class RedstoneMeterBlock extends Block {
    //
 
    public static void register() {
-      Registry.register(Registries.BLOCK, ID, BLOCK);
-      Registry.register(Registries.ITEM, ID, ITEM);
+      Tabletop.register(ID, BLOCK, ITEM);
    }
 
    //

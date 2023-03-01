@@ -3,12 +3,19 @@ package com.ukrech;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -18,14 +25,12 @@ import net.minecraft.world.World;
 import com.ukrech.block.PhantomPrismBlock;
 import com.ukrech.block.RedstoneMeterBlock;
 import com.ukrech.event.ItemRaycastEvent;
-import com.ukrech.block.HumanTotemBlock;
 import com.ukrech.entity.BlobEntity;
 import com.ukrech.entity.HorseDollEntity;
 import com.ukrech.entity.TokenEntity;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.EchoHoeItem;
 import com.ukrech.item.HoneyBallItem;
-import com.ukrech.item.HorseDollItem;
 import com.ukrech.item.SoulCompassItem;
 import com.ukrech.item.TokenItem;
 
@@ -50,7 +55,7 @@ public class Tabletop implements ModInitializer {
    @Override
    public void onInitialize() {
       ItemRaycastEvent.register();
-      
+
       //
 
       PhantomPrismBlock.register();
@@ -85,6 +90,20 @@ public class Tabletop implements ModInitializer {
    }
 
    //
+
+   public static void register(Identifier id, Item item) {
+      Registry.register(Registries.ITEM, id, item);
+   }
+
+   public static void register(Identifier id, Block block, Item item) {
+      Registry.register(Registries.BLOCK, id, block);
+      Registry.register(Registries.ITEM, id, item);
+   }
+
+   public static void register(Identifier id, EntityType<? extends LivingEntity> entity, DefaultAttributeContainer.Builder builder) {
+      Registry.register(Registries.ENTITY_TYPE, id, entity);
+      FabricDefaultAttributeRegistry.register(entity, builder);
+   }
 
    public static void removeBlockWithSound(World world, BlockPos pos, boolean move) {
       var sound = world.getBlockState(pos).getSoundGroup();

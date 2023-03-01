@@ -11,8 +11,6 @@ import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -34,7 +32,7 @@ public class TokenItem extends PlaceableItem {
    //
 
    public static void register() {
-      Registry.register(Registries.ITEM, ID, ITEM);
+      Tabletop.register(ID, ITEM);
       DispenserBlock.registerBehavior(ITEM, TokenItem.getDispenserBehavior());
    }
 

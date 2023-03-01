@@ -8,8 +8,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -28,7 +26,7 @@ public class BlobItem extends PlaceableItem {
    //
 
    public static void register() {
-      Registry.register(Registries.ITEM, ID, ITEM);
+      Tabletop.register(ID, ITEM);
       DispenserBlock.registerBehavior(ITEM, BlobItem.getDispenserBehavior());
    }
 

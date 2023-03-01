@@ -8,8 +8,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -27,7 +25,7 @@ public class EchoHoeItem extends Item {
    //
 
    public static void register() {
-      Registry.register(Registries.ITEM, ID, ITEM);
+     Tabletop.register(ID, ITEM);
    }
 
    //
