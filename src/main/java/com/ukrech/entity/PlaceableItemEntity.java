@@ -83,7 +83,13 @@ public abstract class PlaceableItemEntity extends LivingEntity {
    public int getColor() {
       var stack = this.getOriginItemStack();
 
-      return ((DyeableItem) stack.getItem()).getColor(stack);
+      if (!stack.isEmpty()) {
+         return ((DyeableItem) stack.getItem()).getColor(stack);
+      }
+      else {
+         this.kill();
+         return 0xff00ff;
+      }
    }
 
    public void drop() {
