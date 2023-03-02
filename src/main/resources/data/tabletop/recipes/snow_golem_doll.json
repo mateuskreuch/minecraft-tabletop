@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:snowball" },
+    { "item": "minecraft:string" },
+    { "item": "minecraft:string" },
+    { "item": "minecraft:wheat" }
+  ],
+  "result": {
+    "item": "tabletop:snow_golem_doll",
+    "count": 1
+  }
+}

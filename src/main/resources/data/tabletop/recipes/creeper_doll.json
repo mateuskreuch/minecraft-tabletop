@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:cactus" },
+    { "item": "minecraft:string" },
+    { "item": "minecraft:string" },
+    { "item": "minecraft:wheat" }
+  ],
+  "result": {
+    "item": "tabletop:creeper_doll",
+    "count": 1
+  }
+}

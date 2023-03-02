@@ -16,16 +16,26 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class DollEntity extends PlaceableItemEntity {
+   public static class DollEntityInfo extends PlaceableItemEntityInfo<DollEntity> {
+      public DollEntityInfo(String name) {
+         super(name, 5/16f, 8/16f, DollEntity::new);
+
+         this.texturePath = new Identifier(Tabletop.MOD_ID, String.format("textures/item/%s.png", name));
+      }
+   }
+
+   //
+
    public static final float SHADOW_RADIUS = 4/16f;
 
-   public static final PlaceableItemEntityInfo<DollEntity> ALLAY = new PlaceableItemEntityInfo<>("allay_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> CREEPER = new PlaceableItemEntityInfo<>("creeper_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> GUARDIAN = new PlaceableItemEntityInfo<>("guardian_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> HORSE = new PlaceableItemEntityInfo<>("horse_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> SHULKER = new PlaceableItemEntityInfo<>("shulker_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> SKELETON = new PlaceableItemEntityInfo<>("skeleton_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> SNOW_GOLEM = new PlaceableItemEntityInfo<>("snow_golem_doll", 5/16f, 8/16f, DollEntity::new);
-   public static final PlaceableItemEntityInfo<DollEntity> VILLAGER = new PlaceableItemEntityInfo<>("villager_doll", 5/16f, 8/16f, DollEntity::new);
+   public static final DollEntityInfo ALLAY = new DollEntityInfo("allay_doll");
+   public static final DollEntityInfo CREEPER = new DollEntityInfo("creeper_doll");
+   public static final DollEntityInfo GUARDIAN = new DollEntityInfo("guardian_doll");
+   public static final DollEntityInfo HORSE = new DollEntityInfo("horse_doll");
+   public static final DollEntityInfo SHULKER = new DollEntityInfo("shulker_doll");
+   public static final DollEntityInfo SKELETON = new DollEntityInfo("skeleton_doll");
+   public static final DollEntityInfo SNOW_GOLEM = new DollEntityInfo("snow_golem_doll");
+   public static final DollEntityInfo VILLAGER = new DollEntityInfo("villager_doll");
 
    //
 

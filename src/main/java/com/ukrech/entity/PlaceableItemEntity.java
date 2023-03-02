@@ -50,6 +50,8 @@ public abstract class PlaceableItemEntity extends LivingEntity {
       }
    }
 
+   //
+
    public static final TrackedData<ItemStack> ORIGIN_ITEM_STACK = DataTracker.registerData(PlaceableItemEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
 
    private static final List<ItemStack> EMPTY_STACK_LIST = Collections.emptyList();

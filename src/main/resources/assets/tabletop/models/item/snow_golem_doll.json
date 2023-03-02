@@ -1,0 +1,6 @@
+{
+  "parent": "tabletop:item/template_doll",
+  "textures": {
+    "all": "tabletop:item/snow_golem_doll"
+  }
+}

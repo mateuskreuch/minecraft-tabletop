@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:echo_shard" },
+    { "item": "minecraft:string" },
+    { "item": "minecraft:string" },
+    { "item": "minecraft:wheat" }
+  ],
+  "result": {
+    "item": "tabletop:allay_doll",
+    "count": 1
+  }
+}

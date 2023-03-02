@@ -37,25 +37,30 @@ public class DollItem extends PlaceableItem {
    //
 
    public static void register() {
-      PlaceableItem.register(ALLAY_ID, ALLAY_ITEM, DollEntity.ALLAY.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(CREEPER_ID, CREEPER_ITEM, DollEntity.CREEPER.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(GUARDIAN_ID, GUARDIAN_ITEM, DollEntity.GUARDIAN.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(HORSE_ID, HORSE_ITEM, DollEntity.HORSE.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(SHULKER_ID, SHULKER_ITEM, DollEntity.SHULKER.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(SKELETON_ID, SKELETON_ITEM, DollEntity.SKELETON.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(SNOW_GOLEM_ID, SNOW_GOLEM_ITEM, DollEntity.SNOW_GOLEM.entity, DollItem.getDispenserBehavior());
-      PlaceableItem.register(VILLAGER_ID, VILLAGER_ITEM, DollEntity.VILLAGER.entity, DollItem.getDispenserBehavior());
+      var dispenserBehavior = DollItem.getDispenserBehavior();
+
+      PlaceableItem.register(ALLAY_ID, ALLAY_ITEM, DollEntity.ALLAY.entity, dispenserBehavior);
+      PlaceableItem.register(CREEPER_ID, CREEPER_ITEM, DollEntity.CREEPER.entity, dispenserBehavior);
+      PlaceableItem.register(GUARDIAN_ID, GUARDIAN_ITEM, DollEntity.GUARDIAN.entity, dispenserBehavior);
+      PlaceableItem.register(HORSE_ID, HORSE_ITEM, DollEntity.HORSE.entity, dispenserBehavior);
+      PlaceableItem.register(SHULKER_ID, SHULKER_ITEM, DollEntity.SHULKER.entity, dispenserBehavior);
+      PlaceableItem.register(SKELETON_ID, SKELETON_ITEM, DollEntity.SKELETON.entity, dispenserBehavior);
+      PlaceableItem.register(SNOW_GOLEM_ID, SNOW_GOLEM_ITEM, DollEntity.SNOW_GOLEM.entity, dispenserBehavior);
+      PlaceableItem.register(VILLAGER_ID, VILLAGER_ITEM, DollEntity.VILLAGER.entity, dispenserBehavior);
    }
 
    public static void registerClient() {
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, ALLAY_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, CREEPER_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, GUARDIAN_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, HORSE_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, SHULKER_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, SKELETON_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, SNOW_GOLEM_ITEM);
-      ColorProviderRegistry.ITEM.register(DollItem::getItemColor, VILLAGER_ITEM);
+      ColorProviderRegistry.ITEM.register(
+         DollItem::getItemColor,
+         ALLAY_ITEM,
+         CREEPER_ITEM,
+         GUARDIAN_ITEM,
+         HORSE_ITEM,
+         SHULKER_ITEM,
+         SKELETON_ITEM,
+         SNOW_GOLEM_ITEM,
+         VILLAGER_ITEM
+      );
    }
 
    //

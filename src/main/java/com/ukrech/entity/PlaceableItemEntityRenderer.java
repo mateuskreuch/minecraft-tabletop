@@ -32,6 +32,6 @@ public class PlaceableItemEntityRenderer<E extends PlaceableItemEntity> extends 
 
    @Override
    protected boolean hasLabel(E entity) {
-      return entity == this.dispatcher.targetedEntity;
+      return entity.hasCustomName() && entity == this.dispatcher.targetedEntity;
    }
 }

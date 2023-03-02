@@ -86,9 +86,19 @@ public class Tabletop implements ModInitializer {
       ItemGroupEvents.modifyEntriesEvent(TAB_GROUP).register(content -> {
          content.add(BlobItem.ITEM);
          content.add(TokenItem.ITEM);
+         
+         content.add(DollItem.ALLAY_ITEM);
+         content.add(DollItem.CREEPER_ITEM);
+         content.add(DollItem.GUARDIAN_ITEM);
+         content.add(DollItem.HORSE_ITEM);
+         content.add(DollItem.SHULKER_ITEM);
+         content.add(DollItem.SKELETON_ITEM);
+         content.add(DollItem.SNOW_GOLEM_ITEM);
+         content.add(DollItem.VILLAGER_ITEM);
+
+         content.add(EchoHoeItem.ITEM);
          content.add(HoneyBallItem.ITEM);
          content.add(SoulCompassItem.ITEM);
-         content.add(EchoHoeItem.ITEM);
 
          content.add(PhantomPrismBlock.ITEM);
          content.add(RedstoneMeterBlock.ITEM);
