@@ -88,7 +88,8 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
       }
 
       entity.setOriginItemStack(stack.copyWithCount(amount));
-      entity.refreshPositionAndAngles(x, y, z, world.random.nextBetween(0, 360), 0.0f);
+      entity.refreshPositionAndAngles(x, y, z, 0f, 0f);
+      this.setPlacingYaw(world, player, entity);
       world.spawnEntityAndPassengers(entity);
       this.playPlacingSound(world, x, y, z);
       
@@ -134,6 +135,14 @@ public abstract class PlaceableItem extends Item implements DyeableItem, Raycast
    protected int getPlacingAmount(@Nullable PlayerEntity player, ItemStack stack) { return 1; }
    protected double getPlacingMargin() { return 0.8125; };
    protected double getPlacingStep() { return 8.0; };
+
+   protected void setPlacingYaw(ServerWorld world, @Nullable PlayerEntity player, PlaceableItemEntity entity) {
+      var angle = world.random.nextBetween(0, 360);
+
+      entity.setBodyYaw(angle);
+      entity.setHeadYaw(angle);
+      entity.setYaw(angle);
+   }
 
    //
 

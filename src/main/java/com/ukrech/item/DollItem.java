@@ -1,10 +1,16 @@
 package com.ukrech.item;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.ukrech.Tabletop;
 import com.ukrech.entity.DollEntity;
+import com.ukrech.entity.PlaceableItemEntity;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -64,6 +70,16 @@ public class DollItem extends PlaceableItem {
    }
 
    //
+
+   @Override
+   protected void setPlacingYaw(ServerWorld world, @Nullable PlayerEntity player, PlaceableItemEntity entity) {
+      if (player != null) {
+         entity.lookAt(EntityAnchor.FEET, player.getPos());
+      }
+      else {
+         super.setPlacingYaw(world, player, entity);
+      }
+   }
 
    @Override
    protected int getDefaultColor() {
