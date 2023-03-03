@@ -1,7 +1,7 @@
 {
    "schemaVersion": 1,
    "id": "tabletop",
-   "version": "1.1.1",
+   "version": "1.2.0",
    "name": "tabletop",
    "license": "MIT",
    "icon": "assets/tabletop/icon.png",
