@@ -3,8 +3,6 @@ package com.ukrech.item;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.client.item.CompassAnglePredicateProvider;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -43,7 +41,6 @@ public class SoulCompassItem extends Item {
 
    public static void registerClient() {
       ColorProviderRegistry.ITEM.register(SoulCompassItem::getItemColor, ITEM);
-      ModelPredicateProviderRegistry.register(ITEM, new Identifier("angle"), new CompassAnglePredicateProvider(SoulCompassItem::getPos));
    }
 
    public static int getItemColor(ItemStack itemStack, int tintIndex) {

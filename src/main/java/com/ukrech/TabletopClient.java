@@ -1,11 +1,14 @@
 package com.ukrech;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.item.CompassAnglePredicateProvider;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.util.Identifier;
 
 import com.ukrech.block.PhantomPrismBlock;
-import com.ukrech.entity.BlobEntity;
-import com.ukrech.entity.DollEntity;
-import com.ukrech.entity.TokenEntity;
+import com.ukrech.entity.ClientBlobEntity;
+import com.ukrech.entity.ClientDollEntity;
+import com.ukrech.entity.ClientTokenEntity;
 import com.ukrech.item.BlobItem;
 import com.ukrech.item.DollItem;
 import com.ukrech.item.HoneyBallItem;
@@ -21,10 +24,12 @@ public class TabletopClient implements ClientModInitializer {
       BlobItem.registerClient();
       TokenItem.registerClient();
       DollItem.registerClient();
-      HoneyBallItem.registerClient();
 
-      BlobEntity.registerClient();
-      TokenEntity.registerClient();
-      DollEntity.registerClient();
+      ClientBlobEntity.registerClient();
+      ClientTokenEntity.registerClient();
+      ClientDollEntity.registerClient();
+
+      ModelPredicateProviderRegistry.register(HoneyBallItem.ITEM, new Identifier("storing"), HoneyBallItem::isStoring);
+      ModelPredicateProviderRegistry.register(SoulCompassItem.ITEM, new Identifier("angle"), new CompassAnglePredicateProvider(SoulCompassItem::getPos));
    }
 }

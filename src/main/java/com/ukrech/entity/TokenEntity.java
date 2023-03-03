@@ -2,13 +2,6 @@ package com.ukrech.entity;
 
 import com.ukrech.Tabletop;
 
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.model.ModelData;
-import net.minecraft.client.model.ModelPartBuilder;
-import net.minecraft.client.model.ModelTransform;
-import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -17,12 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class TokenEntity extends PlaceableItemEntity {
    public static final PlaceableItemEntityInfo<TokenEntity> TOKEN = new PlaceableItemEntityInfo<>("token", 3/16f, 4/16f, TokenEntity::new);
-   public static final float SHADOW_RADIUS = 2.5f/16f;
 
    //
 
@@ -34,27 +25,6 @@ public class TokenEntity extends PlaceableItemEntity {
 
    public static void register() {
       Tabletop.register(TOKEN.id, TOKEN.entity, TokenEntity.createPlaceableItemAttributes());
-   }
-
-   public static void registerClient() {
-      EntityModelLayerRegistry.registerModelLayer(TOKEN.layer, () -> {
-         var modelData = new ModelData();
-
-         modelData.getRoot().addChild(
-            EntityModelPartNames.CUBE,
-            ModelPartBuilder.create().uv(0, 0).cuboid(-1.5f, 0f, -1.5f, 3f, 4f, 3f),
-            ModelTransform.pivot(0f, 20f, 0f)
-         );
-         
-         return TexturedModelData.of(modelData, 12, 7);
-      });
-
-      EntityRendererRegistry.register(TOKEN.entity, (context) -> new PlaceableItemEntityRenderer<TokenEntity>(context, TOKEN.layer, SHADOW_RADIUS) {
-         @Override
-         public Identifier getTexture(TokenEntity entity) {
-            return TOKEN.texturePath;
-         }
-      });
    }
 
    //

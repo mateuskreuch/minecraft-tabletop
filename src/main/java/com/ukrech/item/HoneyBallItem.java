@@ -5,7 +5,6 @@ import com.ukrech.Tabletop;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlock;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
@@ -34,10 +33,6 @@ public class HoneyBallItem extends Item {
 
    public static void register() {
       Tabletop.register(ID, ITEM);
-   }
-
-   public static void registerClient() {
-      ModelPredicateProviderRegistry.register(ITEM, new Identifier("storing"), HoneyBallItem::isStoring);
    }
 
    public static float isStoring(ItemStack stack, ClientWorld world, LivingEntity entity, int seed) {

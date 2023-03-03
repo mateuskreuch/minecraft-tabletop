@@ -7,7 +7,6 @@ import com.ukrech.Tabletop;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -36,13 +35,11 @@ public abstract class PlaceableItemEntity extends LivingEntity {
    public static class PlaceableItemEntityInfo<E extends PlaceableItemEntity> {
       public Identifier id;
       public Identifier texturePath;
-      public EntityModelLayer layer;
       public EntityType<E> entity;
 
       public PlaceableItemEntityInfo(String name, float width, float height, EntityFactory<E> factory) {
          this.id = new Identifier(Tabletop.MOD_ID, name.concat("_entity"));
          this.texturePath = new Identifier(Tabletop.MOD_ID, String.format("textures/entity/placeableitems/%s.png", name));
-         this.layer = new EntityModelLayer(this.id, "main");
          this.entity = FabricEntityTypeBuilder.create(SpawnGroup.MISC, factory)
                                               .dimensions(EntityDimensions.fixed(width, height))
                                               .disableSummon()
